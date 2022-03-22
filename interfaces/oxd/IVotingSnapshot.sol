@@ -8,9 +8,7 @@ struct Vote {
 }
 interface IVotingSnapshot {
 
-    function vote(address, int256) external;
-
-    function vote(Vote[] memory) external;
+    function vote(address, address, int256) external;
 
     function removeVote(address) external;
 
