@@ -48,9 +48,9 @@ contract HardcodedVoter {
     VOTING_SNAPSHOT.vote(votes);
   }
 
-  /// @dev Casts vote to target contract
-  /// @notice Can be called by anyone as our votes are hardcoded
-  /// @notice For user security, check how delegation is handled at the strategy level
+  /// @dev Undoes the vote
+  /// @notice Can be called by gov or friend exclusively
+  /// @notice To be used before migrating delegate
   function undoVote() external {
     require(msg.sender == governance || msg.sender == friend);
 
