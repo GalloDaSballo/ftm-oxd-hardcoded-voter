@@ -4,11 +4,17 @@ pragma solidity 0.8.11;
 import {IVotingSnapshot} from "../interfaces/oxd/IVotingSnapshot.sol";
 
 contract HardcodedVoter {
+
+  // The account that can undo the voting
   address immutable governance;
+
+  // The strategy that is delegating to us
   address immutable strategy;
 
+  // Contract we vote on
   IVotingSnapshot constant VOTING_SNAPSHOT = IVotingSnapshot(0xd9671aa5B790127FC1aA9B706CB3BD7889D9e9B8);
 
+  // Pool we're voting for
   address constant POOL =  0x6058345A4D8B89Ddac7042Be08091F91a404B80b; // wBTC / renBTC 
 
   constructor(address newGovernance, address newStrategy) {
