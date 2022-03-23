@@ -6,13 +6,13 @@ import {IVotingSnapshot} from "../interfaces/oxd/IVotingSnapshot.sol";
 contract HardcodedVoter {
 
   // The account that can undo the voting
-  address immutable governance;
+  address public immutable  governance;
 
   // The strategy that is delegating to us
-  address immutable strategy;
+  address public immutable  strategy;
 
   // Contract we vote on
-  IVotingSnapshot constant VOTING_SNAPSHOT = IVotingSnapshot(0xd9671aa5B790127FC1aA9B706CB3BD7889D9e9B8);
+  IVotingSnapshot constant VOTING_SNAPSHOT = IVotingSnapshot(0xDA007a39a692B0feFe9c6cb1a185feAb2722c4fD);
 
   // Pool we're voting for
   address constant POOL =  0x6058345A4D8B89Ddac7042Be08091F91a404B80b; // wBTC / renBTC 
@@ -27,7 +27,7 @@ contract HardcodedVoter {
   /// @notice For user security, check how delegation is handled at the strategy level
   function vote() external {
     // Get Total Votes we got
-    int256 totalVotes = int256(VOTING_SNAPSHOT.voteWeightTotalByAccount(address(this)));
+    int256 totalVotes = int256(VOTING_SNAPSHOT.voteWeightTotalByAccount(strategy));
 
     // NOTE: If you had multiple pools this is where you can split by ratios
     // NOTE: Not needed in this version
@@ -39,19 +39,10 @@ contract HardcodedVoter {
   /// @dev Undoes the vote
   /// @notice Can be called by gov exclusively
   /// @notice To be used before migrating delegate
-  function undoVote(int256 max) external {
+  function undoVote() external {
     require(msg.sender == governance);
 
-    // Get Total Votes we got
-    int256 totalVotes = int256(VOTING_SNAPSHOT.voteWeightTotalByAccount(address(this)));
-    
-    // Added this extra check just in case as the `voteWeightTotalByAccount` may have changed
-    // And we don't want to underflow
-    if(max < totalVotes) {
-      totalVotes = max;
-    }
-
     // Vote
-    VOTING_SNAPSHOT.vote(strategy, POOL, -totalVotes);
+    VOTING_SNAPSHOT.vote(strategy, POOL, 0);
   }
 }
