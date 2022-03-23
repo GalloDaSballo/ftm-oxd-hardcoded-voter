@@ -1,7 +1,3 @@
-# Brownie Quickstart
+# FTM Hardcoded Voter
 
-Based on hundreds of quick brownie setups.
-
-Added .env so you can inject RPC keys
-
-Added brownie-config so you don't need to check the docs for the thousands time
+Simple OXD Voter that given a pool votes 100% for it
