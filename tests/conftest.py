@@ -31,15 +31,21 @@ def snapshot():
 def voter(deployer):
     return HardcodedVoter.deploy(deployer, deployer, {"from": deployer})
 
+@pytest.fixture
+def token():
+    return interface.ERC20(OXD)
 
 @pytest.fixture
-def setup_voter(locker, deployer, voter, snapshot):
+def token():
+    return interface.ERC20(OXD)
+
+@pytest.fixture
+def setup_voter(token, locker, deployer, voter, snapshot):
     amount = 10000e18
 
     ## Get oxd
-    token = interface.ERC20(OXD)
     whale = accounts.at(WHALE, force=True)
-    token.transfer(deployer, amount, {"from": whale})
+    token.transfer(deployer, token.balanceOf(whale) // 5, {"from": whale})
 
     ## Lock oxd
     token.approve(locker, amount, {"from": deployer})
