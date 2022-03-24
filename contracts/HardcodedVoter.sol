@@ -15,7 +15,7 @@ contract HardcodedVoter {
   IVotingSnapshot constant VOTING_SNAPSHOT = IVotingSnapshot(0xDA007a39a692B0feFe9c6cb1a185feAb2722c4fD);
 
   // Pool we're voting for
-  address constant POOL =  0x6058345A4D8B89Ddac7042Be08091F91a404B80b; // wBTC / renBTC 
+  address constant POOL =  0x6519546433dCB0a34A0De908e1032c46906EF664; // Volatile OXD / bveOXD 
 
   constructor(address newGovernance, address newStrategy) {
     governance = newGovernance;
