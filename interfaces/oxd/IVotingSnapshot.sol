@@ -32,4 +32,10 @@ interface IVotingSnapshot {
         external
         view
         returns (uint256);
+
+    function weightByPoolSigned(address)
+        external
+        view
+        returns (int256);
+
 }
