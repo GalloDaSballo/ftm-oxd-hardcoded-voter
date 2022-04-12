@@ -24,9 +24,7 @@ contract HardcodedVoter {
     strategy = newStrategy;
   }
 
-  function getMatchingLPAddresses() public view returns (address[]) {
-    return MATCHING_POOLS;
-  }
+
   /// @dev Casts vote to target contract
   /// @notice Can be called by anyone as our votes are hardcoded
   /// @notice For user security, check how delegation is handled at the strategy level
