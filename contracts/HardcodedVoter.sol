@@ -34,7 +34,7 @@ contract HardcodedVoter {
     int256 matchingVotes = totalVotes / 2;
 
     // Reset votes so we don't include ourselves for matching
-    VOTING_SNAPSHOT.resetVotes();
+      VOTING_SNAPSHOT.resetVotes(strategy);
 
     // Calculate vote matching will need more work if more than one pair to match
     int256 externalVotesForDEI = VOTING_SNAPSHOT.weightByPoolSigned(VAMM_BVEOXD_DAI);
@@ -54,7 +54,8 @@ contract HardcodedVoter {
     require(msg.sender == governance);
 
     // Vote
-    // VOTING_SNAPSHOT.vote(strategy, POOL, 0); - this wont work unless we export more data
-    VOTING_SNAPSHOT.resetVotes();
+    //VOTING_SNAPSHOT.vote(strategy, BASE_POOL, 0);
+    //VOTING_SNAPSHOT.vote(strategy, VAMM_BVEOXD_DAI, 0);
+    VOTING_SNAPSHOT.resetVotes(strategy);
   }
 }

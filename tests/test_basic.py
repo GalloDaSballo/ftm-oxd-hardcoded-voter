@@ -3,6 +3,9 @@ from brownie import *
 from dotmap import DotMap
 import pytest
 
+BASE_POOL =  "0x6519546433dCB0a34A0De908e1032c46906EF664"      # Volatile OXD / bveOXD
+VAMM_BVEOXD_DAI = "0xB2A931f695DA937e426cf5b71C87CACcDa6db194" # Volatile DEI/ bveOXD
+
 def test_basic(snapshot, deployer, setup_voter, rando, locker, token):
   ## Delegation was successful
   assert snapshot.voteDelegateByAccount(deployer) == setup_voter
@@ -10,10 +13,18 @@ def test_basic(snapshot, deployer, setup_voter, rando, locker, token):
   ### CAST A VOTE ###
   ## We vote
   setup_voter.vote({"from": rando})
-
+  total_votes = snapshot.voteWeightAvailableByAccount(deployer)
   first_votes = snapshot.votesByAccount(deployer)
 
-  assert len(first_votes) == 1 ## We have 1 vote
+  basepoolChecked = False
+  for vote in first_votes:
+    if vote[0] == BASE_POOL:
+      basepoolChecked = True
+      assert vote[1] > total_votes/2; ## at least half our vote weight to the base pair
+    elif snapshot.weightByPoolSigned(vote[0]) > 0:
+      assert vote[1] < snapshot.weightByPoolSigned(vote[0])
+      assert vote[1] > 0
+  assert basepoolChecked
 
   ## Voting twice does nothing
   setup_voter.vote({"from": rando})
